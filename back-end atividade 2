@@ -1,0 +1,374 @@
+
+
+1. (1013) The Greatest
+
+<?php
+    $valores = explode(" ", fgets(STDIN));
+
+    $maiorAB = ($valores[0] + $valores[1] + abs($valores[0] - $valores[1])) / 2;
+    $maior = ($maiorAB + $valores[2] + abs($maiorAB - $valores[2])) / 2;
+    
+    echo "$maior eh o maior\n";
+?>
+
+
+
+2. (1018) Banknotes
+
+<?php
+$note_list = array(100, 50, 20, 10, 5, 2, 1);
+
+$money = readline();
+
+echo $money . "\n";
+
+for ($i = 0; $i < 7; $i++) {
+    $count =  $money / $note_list[$i];
+    
+    echo (int) $count . " nota(s) de R$ " . $note_list[$i] . ",00\n";
+    
+    $money %= $note_list[$i];
+}
+?>
+
+
+
+3. (1133) Rest of a Division
+
+<?php
+
+// Lê os dois números inteiros
+fscanf(STDIN, "%d", $x);
+fscanf(STDIN, "%d", $y);
+
+// Determina o menor e o maior valor
+$min = min($x, $y);
+$max = max($x, $y);
+
+// Loop pelos números entre o menor e o maior
+for ($i = $min + 1; $i < $max; $i++) {
+    // Verifica se o resto da divisão por 5 ou 13 é igual a 2 ou 3
+    if ($i % 5 == 2 || $i % 5 == 3) {
+        echo $i . PHP_EOL;
+    }
+}
+
+
+
+4. (1101) Sequence of Numbers and Sum
+
+<?php
+
+while (true) {
+    // Lê os valores de M e N
+    fscanf(STDIN, "%d %d", $m, $n);
+
+    // Verifica se ambos são positivos
+    if ($m <= 0 || $n <= 0) {
+        break;
+    }
+
+    // Inicializa a soma
+    $sum = 0;
+
+    // Determina o menor e o maior valor
+    $start = min($m, $n);
+    $end = max($m, $n);
+
+    // Imprime a sequência e calcula a soma
+    for ($i = $start; $i <= $end; $i++) {
+        echo $i . " ";
+        $sum += $i;
+    }
+
+    // Imprime a soma
+    echo "Sum=" . $sum . PHP_EOL;
+}
+
+
+
+5. (1789) The Race of Slugs
+
+<?php
+
+while (($n = fgets(STDIN)) !== false) {
+    $velocities = explode(" ", fgets(STDIN));
+    $max_velocity = max($velocities);
+
+    if ($max_velocity < 10) {
+        echo "1\n";
+    } elseif ($max_velocity >= 10 && $max_velocity < 20) {
+        echo "2\n";
+    } else {
+        echo "3\n";
+    }
+}
+
+
+
+6. (1071) Sum of Consecutive Odd Numbers I
+
+<?php
+
+// Lê os dois valores inteiros
+fscanf(STDIN, "%d", $x);
+fscanf(STDIN, "%d", $y);
+
+// Determina o menor e o maior valor
+$start = min($x, $y) + 1;
+$end = max($x, $y);
+
+// Inicializa a soma
+$sum = 0;
+
+// Percorre os números entre o menor e o maior
+for ($i = $start; $i < $end; $i++) {
+    // Verifica se o número é ímpar
+    if ($i % 2 != 0) {
+        // Soma o número ímpar
+        $sum += $i;
+    }
+}
+
+// Imprime a soma
+echo $sum . "\n";
+
+
+
+7. (1103) Alarm Clock
+
+<?php
+
+while (true) {
+    // Lê os valores das horas e minutos dos dois alarmes
+    fscanf(STDIN, "%d %d %d %d", $h1, $m1, $h2, $m2);
+
+    // Verifica se todos os valores são zero, o que indica o fim da entrada
+    if ($h1 == 0 && $m1 == 0 && $h2 == 0 && $m2 == 0) {
+        break;
+    }
+
+    // Converte os tempos para minutos
+    $total_m1 = $h1 * 60 + $m1;
+    $total_m2 = $h2 * 60 + $m2;
+
+    // Calcula a diferença entre os horários
+    $difference = $total_m2 - $total_m1;
+
+    // Se o segundo alarme for antes do primeiro, adiciona um dia (24 horas)
+    if ($difference < 0) {
+        $difference += 24 * 60;
+    }
+
+    // Imprime a diferença em minutos
+    echo $difference . "\n";
+}
+
+
+
+8. (1024) Encryption
+
+<?php
+
+// Função para criptografar a string de acordo com as especificações
+function encrypt($string) {
+    $encrypted = '';
+    $length = strlen($string);
+
+    // Passo 1: Shift dos caracteres em três posições na tabela ASCII
+    for ($i = 0; $i < $length; $i++) {
+        $char = $string[$i];
+        if (ctype_alpha($char)) {
+            $encrypted .= chr(ord($char) + 3);
+        } else {
+            $encrypted .= $char;
+        }
+    }
+
+    // Passo 2: Inverter a string criptografada
+    $encrypted = strrev($encrypted);
+
+    // Passo 3: Deslocar metade dos caracteres para trás uma posição na tabela ASCII
+    $half_length = (int) ($length / 2);
+    for ($i = $half_length; $i < $length; $i++) {
+        $char = $encrypted[$i];
+        $encrypted[$i] = chr(ord($char) - 1);
+    }
+
+    return $encrypted;
+}
+
+// Número de casos de teste
+$num_cases = intval(fgets(STDIN));
+
+// Loop para cada caso de teste
+for ($i = 0; $i < $num_cases; $i++) {
+    // Entrada: leitura da string
+    $input = trim(fgets(STDIN));
+    
+    // Chamada da função de criptografia e exibição do resultado
+    echo encrypt($input) . PHP_EOL;
+}
+
+
+
+9. (1168) LED
+
+<?php
+
+// Função para calcular o número de LEDs necessários para exibir um número
+function countLEDs($number) {
+    // Definindo a quantidade de LEDs necessários para cada dígito de 0 a 9
+    $leds = [6, 2, 5, 5, 4, 5, 6, 3, 7, 6]; 
+    $totalLEDs = 0;
+    
+    // Convertendo o número para uma string
+    $numberString = strval($number);
+    
+    // Somando a quantidade de LEDs necessários para cada dígito
+    foreach ($numberString as $digit) {
+        $totalLEDs += $leds[(int)$digit]; 
+    }
+    
+    return $totalLEDs;
+}
+
+// Número de casos de teste
+$num_cases = intval(fgets(STDIN));
+
+// Loop para cada caso de teste
+for ($i = 0; $i < $num_cases; $i++) {
+    // Entrada: leitura do número a ser exibido
+    $number = intval(fgets(STDIN));
+    
+    // Chamada da função de contagem de LEDs e exibição do resultado
+    echo countLEDs($number) . " leds" . PHP_EOL;
+}
+
+
+
+10. (1253) Caesar Cipher
+
+<?php
+
+// Função para decifrar uma mensagem com a cifra de César
+function decifrarCifraDeCesar($mensagem, $deslocamento) {
+    $decifrado = '';
+    $tamanho = strlen($mensagem);
+
+    // Itera sobre cada caractere da mensagem
+    for ($i = 0; $i < $tamanho; $i++) {
+        $char = $mensagem[$i];
+
+        // Decifra apenas caracteres alfabéticos
+        if (ctype_alpha($char)) {
+            // Determina se o caractere é maiúsculo ou minúsculo
+            $is_upper = ctype_upper($char);
+
+            // Aplica o deslocamento, garantindo que o resultado esteja no intervalo de letras
+            $novo_codigo = ord($char) - $deslocamento;
+            if (($is_upper && $novo_codigo < ord('A')) || (!$is_upper && $novo_codigo < ord('a'))) {
+                $novo_codigo += 26; // Volta ao final do alfabeto
+            }
+
+            // Adiciona o caractere decifrado à mensagem
+            $decifrado .= chr($novo_codigo);
+        } else {
+            // Se não for alfabético, mantém o caractere inalterado
+            $decifrado .= $char;
+        }
+    }
+
+    return $decifrado;
+}
+
+// Número de casos de teste
+$num_casos = intval(fgets(STDIN));
+
+// Loop para cada caso de teste
+for ($i = 0; $i < $num_casos; $i++) {
+    // Leitura da mensagem e do deslocamento
+    $mensagem = trim(fgets(STDIN));
+    $deslocamento = intval(fgets(STDIN));
+
+    // Chamada da função para decifrar a mensagem e exibição do resultado
+    echo decifrarCifraDeCesar($mensagem, $deslocamento) . PHP_EOL;
+}
+
+
+
+11. (1259) Even and Odd
+
+<?php
+
+// Função para ordenar os números pares e ímpares
+function sortByParity($a, $b) {
+    // Se ambos são pares ou ímpares, ordene normalmente
+    if ($a % 2 == $b % 2) {
+        return $a > $b ? 1 : -1;
+    }
+    // Se $a é par e $b é ímpar, coloque $a antes de $b
+    return $a % 2 == 0 ? -1 : 1;
+}
+
+// Número de casos de teste
+$num_cases = intval(fgets(STDIN));
+
+// Arrays para armazenar os números pares e ímpares
+$even = array();
+$odd = array();
+
+// Lendo os números e separando em pares e ímpares
+for ($i = 0; $i < $num_cases; $i++) {
+    $number = intval(fgets(STDIN));
+    if ($number % 2 == 0) {
+        $even[] = $number;
+    } else {
+        $odd[] = $number;
+    }
+}
+
+// Ordenando os números pares e ímpares
+usort($even, 'sortByParity');
+usort($odd, 'sortByParity');
+
+// Exibindo os números pares
+foreach ($even as $num) {
+    echo $num . "\n";
+}
+
+// Exibindo os números ímpares em ordem decrescente
+for ($i = count($odd) - 1; $i >= 0; $i--) {
+    echo $odd[$i] . "\n";
+}
+
+
+
+12. (1028) Collectable Cards
+
+<?php
+
+// Função para calcular o máximo divisor comum (MDC) usando o algoritmo de Euclides
+function gcd($a, $b) {
+    while ($b != 0) {
+        $t = $b;
+        $b = $a % $b;
+        $a = $t;
+    }
+    return $a;
+}
+
+// Número de casos de teste
+$num_cases = intval(fgets(STDIN));
+
+// Loop para cada caso de teste
+for ($i = 0; $i < $num_cases; $i++) {
+    // Lendo os números de cartas que o pai e o filho têm
+    fscanf(STDIN, "%d %d", $cards_father, $cards_son);
+
+    // Calculando o máximo divisor comum entre os números de cartas
+    $gcd = gcd($cards_father, $cards_son);
+
+    // Exibindo o resultado (MDC)
+    echo $gcd . PHP_EOL;
+}
